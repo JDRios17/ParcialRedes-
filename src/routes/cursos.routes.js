@@ -1,24 +1,23 @@
 // =====================================================================
-// CAPA DE PRESENTACIÓN (rutas)
-// Asocia cada método HTTP + URI con una función del controlador.
+// CAPA DE RUTAS - ms-cursos
+// Exige token en todas las rutas; GET para cualquier rol autenticado;
+// POST, PUT y DELETE solo para el rol 'administrador'.
 // =====================================================================
 const { Router } = require('express');
 const router = Router();
-const controller = require('../controllers/clientes.controller');
-const { verificarToken, requiereRol } = require('../middlewares/auth'); // Importamos el middleware de seguridad
+const controller = require('../controllers/cursos.controller');
+const { verificarToken, requiereRol } = require('../middlewares/auth');
 
-// Definición de los endpoints para la entidad Clientes
-
-// 1. Exigir token obligatorio a TODAS las rutas que estén debajo de esta línea
+// Todas las rutas exigen token válido
 router.use(verificarToken);
 
-// 2. Rutas de consulta (Cualquier usuario autenticado con token válido puede ver)
+// Consulta: cualquier rol autenticado con token válido
 router.get('/', controller.listar);
 router.get('/:id', controller.obtener);
 
-// 3. Rutas de escritura protegidas por rol (exigen token + rol autorizado)
-router.post('/', requiereRol('administrador', 'comercial'), controller.crear);
-router.put('/:id', requiereRol('administrador', 'comercial'), controller.actualizar);
+// Escritura y eliminación: solo rol administrador
+router.post('/', requiereRol('administrador'), controller.crear);
+router.put('/:id', requiereRol('administrador'), controller.actualizar);
 router.delete('/:id', requiereRol('administrador'), controller.eliminar);
 
-module.exports = router; 
+module.exports = router;
