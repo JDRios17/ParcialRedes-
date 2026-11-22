@@ -1,45 +1,62 @@
 // =====================================================================
-// Configuración de la aplicación Express.
-// Aquí se registran los middlewares, las rutas y el manejo de errores.
+// Configuración de la aplicación Express - ms-cursos
+// Registra middlewares, log de peticiones (método, ruta, código),
+// rutas de /cursos y manejo centralizado de errores.
 // =====================================================================
 const express = require('express');
-const clientesRoutes = require('./routes/clientes.routes');
-
-
+const cursosRoutes = require('./routes/cursos.routes');
 
 const app = express();
 
-// Middleware: convierte el cuerpo JSON de la petición en un objeto (req.body)
+// Convierte el cuerpo JSON de la petición en req.body
 app.use(express.json());
 
-// Registro: muestra en la terminal cada petición que llega
+// Registro de cada petición recibida: método, ruta y código de respuesta
 app.use((req, res, next) => {
-  console.log(`${new Date().toLocaleTimeString()} ${req.method} ${req.originalUrl}`);
+  const inicio = Date.now();
+  res.on('finish', () => {
+    const duracion = Date.now() - inicio;
+    console.log(
+      `${new Date().toLocaleTimeString()} ${req.method} ${req.originalUrl} -> ${res.statusCode} (${duracion}ms)`
+    );
+  });
   next();
 });
 
-// Endpoint de salud: permite verificar que el microservicio está vivo
+// Endpoint de salud para verificar que el microservicio está activo
 app.get('/health', (req, res) => {
-  res.json({ servicio: 'ms-clientes', estado: 'ok' });
+  res.status(200).json({ servicio: 'ms-cursos', estado: 'ok' });
 });
 
-// Rutas del recurso. Todas las URIs de este microservicio empiezan por /clientes
-app.use('/clientes', clientesRoutes);
+// Rutas principales del recurso
+app.use('/cursos', cursosRoutes);
 
 // Cualquier otra ruta: 404 Not Found
 app.use((req, res) => {
-  res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.originalUrl}` });
+  res.status(404).json({
+    error: `Ruta no encontrada: ${req.method} ${req.originalUrl}`,
+  });
 });
 
-// Manejo centralizado de errores (los lanza la capa de servicio)
+// Manejo centralizado de errores (HttpError y errores inesperados)
 app.use((err, req, res, next) => {
-  // JSON mal formado en el cuerpo de la petición
   if (err.type === 'entity.parse.failed') {
-    return res.status(400).json({ error: 'El cuerpo de la petición no es un JSON válido' });
+    return res.status(400).json({
+      error: 'El cuerpo de la petición no es un JSON válido',
+    });
   }
+
   const status = err.status || 500;
-  if (status === 500) console.error(err);
-  res.status(status).json({ error: err.message, detalles: err.detalles });
+  if (status === 500) {
+    console.error(err);
+  }
+
+  const respuesta = { error: err.message || 'Error interno del servidor' };
+  if (err.detalles) {
+    respuesta.detalles = err.detalles;
+  }
+
+  return res.status(status).json(respuesta);
 });
 
 module.exports = app;
