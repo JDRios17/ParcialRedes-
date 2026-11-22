@@ -2,7 +2,7 @@
 // CAPA DE ACCESO A DATOS (repositorio) - ms-cursos
 // Única capa que ejecuta consultas SQL sobre la tabla cursos en MySQL.
 // =====================================================================
-const pool = require('../utils/db');
+const pool = require('../db');
 
 async function findAll(filtros = {}) {
   let sql = 'SELECT id, codigo, nombre, creditos, cupo, semestre FROM cursos';
