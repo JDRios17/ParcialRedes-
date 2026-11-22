@@ -15,6 +15,15 @@
           "request": {
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"admin@empresa.com\",\r\n  \"password\": \"Admin2026*\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "http://127.0.0.1:3001/usuarios/login",
               "protocol": "http",
@@ -36,10 +45,31 @@
         {
           "name": "Listar Usuarios",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3001/usuarios",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3001",
+              "path": [
+                "usuarios"
+              ]
             }
           },
           "response": []
@@ -55,7 +85,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3011/health",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "health"
+              ]
             }
           },
           "response": []
@@ -63,10 +104,31 @@
         {
           "name": "Listar Todos los Cursos",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3011/cursos",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "cursos"
+              ]
             }
           },
           "response": []
@@ -74,10 +136,37 @@
         {
           "name": "Filtrar Cursos por Semestre",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3011/cursos?semestre=2026-2",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "cursos"
+              ],
+              "query": [
+                {
+                  "key": "semestre",
+                  "value": "2026-2"
+                }
+              ]
             }
           },
           "response": []
@@ -85,10 +174,32 @@
         {
           "name": "Obtener Curso por ID",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3011/cursos/1",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "cursos",
+                "1"
+              ]
             }
           },
           "response": []
@@ -96,6 +207,16 @@
         {
           "name": "Crear Curso Válido",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "body": {
@@ -128,7 +249,14 @@
           "name": "Crear Curso Inválido (Validación)",
           "request": {
             "auth": {
-              "type": "bearer"
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
             },
             "method": "POST",
             "header": [],
@@ -161,10 +289,41 @@
         {
           "name": "Actualizar Curso",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "PUT",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"codigo\": \"CUR-104\",\r\n  \"nombre\": \"Sistemas Distribuidos y Redes\",\r\n  \"creditos\": 5,\r\n  \"cupo\": 25,\r\n  \"semestre\": \"2026-2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3011/cursos/4",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "cursos",
+                "4"
+              ]
             }
           },
           "response": []
@@ -172,15 +331,43 @@
         {
           "name": "Eliminar Curso",
           "request": {
-            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{json_web_token_19ng}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://127.0.0.1:3011/cursos/4",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "cursos",
+                "4"
+              ]
             }
           },
           "response": []
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "json_web_token_19ng",
+      "secret": true
     }
   ]
 }
