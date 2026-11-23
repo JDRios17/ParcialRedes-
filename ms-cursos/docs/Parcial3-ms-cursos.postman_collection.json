@@ -360,6 +360,28 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "409 conflict",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:3011/cursos",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "3011",
+              "path": [
+                "cursos"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
