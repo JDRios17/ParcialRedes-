@@ -4,8 +4,10 @@
 // =====================================================================
 const pool = require('../db');
 
+const CAMPOS_CURSO = 'id, codigo, nombre, creditos, cupo, semestre, docente_id';
+
 async function findAll(filtros = {}) {
-  let sql = 'SELECT id, codigo, nombre, creditos, cupo, semestre FROM cursos';
+  let sql = `SELECT ${CAMPOS_CURSO} FROM cursos`;
   const condiciones = [];
   const valores = [];
 
@@ -25,7 +27,7 @@ async function findAll(filtros = {}) {
 
 async function findById(id) {
   const [filas] = await pool.query(
-    'SELECT id, codigo, nombre, creditos, cupo, semestre FROM cursos WHERE id = ?',
+    `SELECT ${CAMPOS_CURSO} FROM cursos WHERE id = ?`,
     [id]
   );
   return filas.length > 0 ? filas[0] : null;
@@ -33,7 +35,7 @@ async function findById(id) {
 
 async function findByCodigo(codigo) {
   const [filas] = await pool.query(
-    'SELECT id, codigo, nombre, creditos, cupo, semestre FROM cursos WHERE codigo = ?',
+    `SELECT ${CAMPOS_CURSO} FROM cursos WHERE codigo = ?`,
     [String(codigo).trim()]
   );
   return filas.length > 0 ? filas[0] : null;
@@ -41,16 +43,16 @@ async function findByCodigo(codigo) {
 
 async function create(curso) {
   const [resultado] = await pool.query(
-    'INSERT INTO cursos (codigo, nombre, creditos, cupo, semestre) VALUES (?, ?, ?, ?, ?)',
-    [curso.codigo, curso.nombre, curso.creditos, curso.cupo, curso.semestre]
+    'INSERT INTO cursos (codigo, nombre, creditos, cupo, semestre, docente_id) VALUES (?, ?, ?, ?, ?, ?)',
+    [curso.codigo, curso.nombre, curso.creditos, curso.cupo, curso.semestre, curso.docente_id]
   );
   return findById(resultado.insertId);
 }
 
 async function update(id, curso) {
   const [resultado] = await pool.query(
-    'UPDATE cursos SET codigo = ?, nombre = ?, creditos = ?, cupo = ?, semestre = ? WHERE id = ?',
-    [curso.codigo, curso.nombre, curso.creditos, curso.cupo, curso.semestre, id]
+    'UPDATE cursos SET codigo = ?, nombre = ?, creditos = ?, cupo = ?, semestre = ?, docente_id = ? WHERE id = ?',
+    [curso.codigo, curso.nombre, curso.creditos, curso.cupo, curso.semestre, curso.docente_id, id]
   );
   if (resultado.affectedRows === 0) return null;
   return findById(id);

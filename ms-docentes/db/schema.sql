@@ -13,3 +13,4 @@ INSERT INTO docentes (nombre_completo, email, activo) VALUES
   ('Jorge Andrés Rey', 'jrey@uni.edu.co', TRUE),
   ('Paula Viveros', 'pviveros@uni.edu.co', FALSE),
   ('Hernán Cárdenas', 'hcardenas@uni.edu.co', TRUE);
+  

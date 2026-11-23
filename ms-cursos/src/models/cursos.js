@@ -1,7 +1,7 @@
 // =====================================================================
 // MODELO DE DOMINIO - ms-cursos
 // Valida los datos de entrada y normaliza/construye el objeto curso.
-// No tiene ningún campo de referencia a otra entidad (*_id).
+// Incluye docente_id (entero positivo, obligatorio).
 // =====================================================================
 
 const REGEX_SEMESTRE = /^\d{4}-(1|2)$/;
@@ -48,6 +48,12 @@ function validarCurso(datos = {}, { parcial = false } = {}) {
     }
   }
 
+  if (!parcial || Object.prototype.hasOwnProperty.call(datos, 'docente_id')) {
+    if (!esEnteroPositivo(datos.docente_id)) {
+      errores.push('El campo docente_id es obligatorio y debe ser un número entero mayor que 0');
+    }
+  }
+
   return errores;
 }
 
@@ -68,6 +74,9 @@ function construirCurso(datos = {}) {
   }
   if (datos.semestre !== undefined) {
     curso.semestre = String(datos.semestre).trim();
+  }
+  if (datos.docente_id !== undefined) {
+    curso.docente_id = Number(datos.docente_id);
   }
 
   return curso;
